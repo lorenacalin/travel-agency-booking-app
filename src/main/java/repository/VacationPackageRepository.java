@@ -3,6 +3,7 @@ package repository;
 import controller.VacationDestinationController;
 import model.VacationDestination;
 import model.VacationPackage;
+import model.enums.Status;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,6 +12,7 @@ import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VacationPackageRepository {
 
@@ -117,12 +119,19 @@ public class VacationPackageRepository {
         return null;
     }
 
+    public List<VacationPackage> findAvailablePackages(){
+        return getAllPackages()
+                .stream()
+                .filter(p->p.getStatus().equals(Status.in_progress) || p.getStatus().equals(Status.not_booked))
+                .collect(Collectors.toList());
+    }
+
     public List<VacationPackage> findBetweenPrice(Double minPrice, Double maxPrice) {
         if (!entityManager.getTransaction().isActive()) {
             entityManager.getTransaction().begin();
         }
         try {
-            return entityManager.createQuery("SELECT a from VacationPackage a WHERE a.price > :minPrice AND a.price < :maxPrice", VacationPackage.class)
+            return entityManager.createQuery("SELECT a from VacationPackage a WHERE a.price > :minPrice AND a.price < :maxPrice AND a.status <> 'booked'", VacationPackage.class)
                     .setParameter("minPrice", minPrice)
                     .setParameter("maxPrice", maxPrice)
                     .getResultList();
@@ -139,7 +148,7 @@ public class VacationPackageRepository {
             entityManager.getTransaction().begin();
         }
         try{
-            return entityManager.createQuery("SELECT a from VacationPackage a WHERE a.startDate BETWEEN :startDate AND :endDate", VacationPackage.class)
+            return entityManager.createQuery("SELECT a from VacationPackage a WHERE a.startDate BETWEEN :startDate AND :endDate AND a.status <> 'booked'", VacationPackage.class)
                     .setParameter("startDate", startDate)
                     .setParameter("endDate", endDate)
                     .getResultList();

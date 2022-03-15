@@ -1,6 +1,8 @@
 package gui;
 
 import controller.UserController;
+import controller.VacationDestinationController;
+import controller.VacationPackageController;
 import model.User;
 
 import javax.swing.*;
@@ -8,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LogInGUI extends JFrame {
     private JTextField usernameTextField;
@@ -20,8 +24,19 @@ public class LogInGUI extends JFrame {
 
     public LogInGUI(RegisterGUI registerGUI, AgencyGUI agencyGUI, ClientGUI clientGUI){
         UserController userController = new UserController();
+        VacationPackageController vacationPackageController = new VacationPackageController();
+        VacationDestinationController vacationDestinationController = new VacationDestinationController();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                userController.closeConnection();
+                vacationPackageController.closeConnection();
+                vacationDestinationController.closeConnection();
+                //System.out.println("done");
+            }
+
+        });
         setBounds(100,100,396,306);
         JPanel jPanel = new JPanel();
         jPanel.setForeground(new Color(177, 127, 127));

@@ -212,11 +212,12 @@ public class ClientGUI extends JFrame {
         availableVacationsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<VacationPackage> vacationPackageList = vacationPackageController.getAllFinalPackages()
-                        .stream()
-                        .filter(p->p.getStatus().equals(Status.in_progress) || p.getStatus().equals(Status.not_booked))
-                        .collect(Collectors.toList());
-                setTextArea(vacationPackageList.toString());
+                if(vacationPackageController.findAvailablePackages() != null){
+                    setTextArea(vacationPackageController.findAvailablePackages().toString());
+                }else{
+                    JOptionPane.showMessageDialog(null,"No available packages found.");
+                    setTextArea("No available packages.");
+                }
             }
         });
 

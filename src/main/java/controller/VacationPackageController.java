@@ -43,6 +43,10 @@ public class VacationPackageController {
         vacationPackageService.bookValid(vacationPackage);
     }
 
+    public List<VacationPackage> findAvailablePackages(){
+        return vacationPackageService.findValidAvailablePackages();
+    }
+
     public List<VacationPackage> findFinalByKeyword(String name){
         return vacationPackageService.findValidByKeyword(name);
     }

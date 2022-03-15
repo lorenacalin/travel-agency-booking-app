@@ -331,6 +331,7 @@ public class AgencyGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Integer id = Integer.parseInt(getPackageIdTextField());
                 vacationPackageController.deleteFinalPackage(id);
+                setPackagesArea(vacationPackageController.getAllFinalPackages().toString());
             }
         });
 
@@ -344,18 +345,6 @@ public class AgencyGUI extends JFrame {
 
     public String getDestinationNameTextField() {
         return destinationNameTextField.getText();
-    }
-
-    public JButton getAddDestinationButton() {
-        return addDestinationButton;
-    }
-
-    public JButton getDeleteDestinationButton() {
-        return deleteDestinationButton;
-    }
-
-    public JButton getViewAllDestinationsButton() {
-        return viewAllDestinationsButton;
     }
 
     public String getPackageNameTextField() {
@@ -384,22 +373,6 @@ public class AgencyGUI extends JFrame {
 
     public String getPackageDestinationIdTextField() {
         return packageDestinationIdTextField.getText();
-    }
-
-    public JButton getAddPackageButton() {
-        return addPackageButton;
-    }
-
-    public JButton getEditPackageButton() {
-        return editPackageButton;
-    }
-
-    public JButton getDeletePackageButton() {
-        return deletePackageButton;
-    }
-
-    public JButton getViewAllPackagesButton() {
-        return viewAllPackagesButton;
     }
 
     public String getDestinationIdTextField() {

@@ -101,6 +101,10 @@ public class VacationPackageService {
         }
     }
 
+    public List<VacationPackage> findValidAvailablePackages(){
+        return vacationPackageRepository.findAvailablePackages();
+    }
+
     public List<VacationPackage> findValidByKeyword(String name){
         if(name == null && name.isEmpty()){
             JOptionPane.showMessageDialog(null,"Invalid keyword.");
@@ -114,7 +118,7 @@ public class VacationPackageService {
     }
 
     public List<VacationPackage> findValidBetweenPrice(Double minPrice, Double maxPrice){
-        if(minPrice < 0 || maxPrice < 0 || minPrice > maxPrice){
+        if((minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) && maxPrice.toString().matches("[0-9]+")){
             JOptionPane.showMessageDialog(null,"Invalid price bounds.");
             return null;
         }else{
